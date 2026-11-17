@@ -1,6 +1,26 @@
+import { useState, useRef } from "react";
 import Header from "./Header";
+import { validateEmailNPassword } from "../utils/validations";
 
 const Login = () => {
+  const [isSignInFormOpen, setSignInFormOpen] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const nameRef = useRef();
+
+  const onSubmit = () => {
+    const isValid = validateEmailNPassword(
+      emailRef.current.value,
+      passwordRef.current.value,
+      !isSignInFormOpen,
+      nameRef.current.value,
+    );
+    setErrorMsg(isValid);
+    if (isSignInFormOpen) {
+    } else {
+    }
+  };
   return (
     <div className="relativen h-screen items-center justify-center">
       <Header />
@@ -11,19 +31,49 @@ const Login = () => {
         alt="image_1"
         className="h-screen"
       />
-      <form className="absolute flex flex-col inset-0 m-auto w-3/12 h-fit bg-black p-5 rounded bg-opacity-75">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="absolute flex flex-col inset-0 m-auto w-3/12 h-fit bg-black p-5 rounded bg-opacity-75"
+      >
+        <p className="text-white text-xl">
+          {isSignInFormOpen ? "Sign In" : "Sign Up"}
+        </p>
+        {!isSignInFormOpen ? (
+          <input
+            ref={nameRef}
+            placeholder="Enter Full Name"
+            type="text"
+            className="p-2 m-2 outline-none bg-gray-500 text-white rounded focus:border-white focus:border"
+          />
+        ) : null}
         <input
+          ref={emailRef}
           placeholder="Enter Email"
           type="email"
           className="p-2 m-2 outline-none bg-gray-500 text-white rounded focus:border-white focus:border"
         />
         <input
+          ref={passwordRef}
           placeholder="Enter Password"
           type="password"
           className="p-2 m-2 outline-none bg-gray-500 text-white rounded focus:border-white focus:border"
         />
-        <button className="p-2 m-2 bg-[#e40914] text-white rounded">
+        {errorMsg ? (
+          <p className="text-red-700 m-2 font-medium">{errorMsg}</p>
+        ) : null}
+        <button
+          className="p-2 m-2 bg-[#e40914] text-white rounded"
+          onClick={onSubmit}
+        >
           {"Continue"}
+        </button>
+        <button
+          className="text-white p-2 m-1 text-left"
+          onClick={() => setSignInFormOpen(!isSignInFormOpen)}
+        >
+          {isSignInFormOpen
+            ? "Need help? Sign Up"
+            : "Already have an account? Sign In"}
         </button>
       </form>
     </div>
