@@ -1,6 +1,13 @@
 import { useState, useRef } from "react";
 import Header from "./Header";
 import { validateEmailNPassword } from "../utils/validations";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { USER_LOGO } from "../utils/constants";
 
 const Login = () => {
   const [isSignInFormOpen, setSignInFormOpen] = useState(true);
@@ -14,11 +21,48 @@ const Login = () => {
       emailRef.current.value,
       passwordRef.current.value,
       !isSignInFormOpen,
-      nameRef.current.value,
+      nameRef?.current?.value,
     );
     setErrorMsg(isValid);
+    if (isValid) return;
     if (isSignInFormOpen) {
+      signInWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          setErrorMsg(error?.message);
+        });
     } else {
+      createUserWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          updateProfile(auth.currentUser, {
+            displayName: nameRef?.current?.value ?? 'Guest User',
+            photoURL: USER_LOGO,
+          })
+            .then(() => {
+              // Profile updated!
+              // ...
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
+        })
+        .catch((error) => {
+          setErrorMsg(error?.message);
+        });
     }
   };
   return (
