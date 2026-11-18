@@ -3,22 +3,27 @@ import "./App.css";
 import Login from "./components/Login";
 import Home from "./components/Home";
 
-const App = () => {
+import Body from "./components/Body";
 
+const App = () => {
   const router = createBrowserRouter([
     {
-      path: '/',
-      element: <Login/>
-    },
-    {
-      path: '/home',
-      element: <Home/>
+      path: "/",
+      element: <Body />,
+      children: [
+        {
+          path: "/",
+          element: <Login />,
+        },
+        {
+          path: "home",
+          element: <Home />,
+        },
+      ],
     },
   ]);
 
-  return (
-    <RouterProvider router={router}/>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
