@@ -10,8 +10,12 @@ const MainContainer = () => {
   return (
     <div>
       <h1 className="text-xl font-bold">{preview?.title}</h1>
-      <p className="w-1/4 font-light">{preview?.overview}</p>
-      <VideoPreview movieId={preview?.id}/>
+      <p className="w-1/4 font-light text-left m-2">{preview?.overview}</p>
+      <div>
+        <button className="m-2 py-1 px-6 bg-slate-300 rounded text-sm">{"▶ Play"}</button>
+        <button className="m-2 py-1 px-6 bg-slate-300 rounded text-sm">{"ℹ More"}</button>
+      </div>
+      {/* <VideoPreview movieId={preview?.id}/> */}
     </div>
   );
 };
