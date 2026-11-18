@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 
 import Body from "./components/Body";
+import GlobalLoader from "./components/GlobalLoader";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -23,7 +24,11 @@ const App = () => {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} /> <GlobalLoader />
+    </>
+  );
 };
 
 export default App;

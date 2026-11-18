@@ -8,8 +8,11 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { USER_LOGO } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { hideLoader, showLoader } from "../store/loaderSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [isSignInFormOpen, setSignInFormOpen] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const emailRef = useRef();
@@ -26,6 +29,7 @@ const Login = () => {
     setErrorMsg(isValid);
     if (isValid) return;
     if (isSignInFormOpen) {
+      dispatch(showLoader());
       signInWithEmailAndPassword(
         auth,
         emailRef.current.value,
@@ -33,12 +37,14 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          dispatch(hideLoader());
         })
         .catch((error) => {
+          dispatch(showLoader());
           setErrorMsg(error?.message);
         });
     } else {
+      dispatch(showLoader());
       createUserWithEmailAndPassword(
         auth,
         emailRef.current.value,
@@ -48,19 +54,18 @@ const Login = () => {
           const user = userCredential.user;
           console.log(user);
           updateProfile(auth.currentUser, {
-            displayName: nameRef?.current?.value ?? 'Guest User',
+            displayName: nameRef?.current?.value ?? "Guest User",
             photoURL: USER_LOGO,
           })
             .then(() => {
-              // Profile updated!
-              // ...
+              dispatch(hideLoader());
             })
             .catch((error) => {
-              // An error occurred
-              // ...
+              dispatch(hideLoader());
             });
         })
         .catch((error) => {
+          dispatch(hideLoader());
           setErrorMsg(error?.message);
         });
     }

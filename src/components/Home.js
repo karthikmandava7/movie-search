@@ -1,17 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { hideLoader, showLoader } from "../store/loaderSlice";
 
 const Home = () => {
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
 
   const onLogout = () => {
+    dispatch(showLoader());
     signOut(auth)
       .then(() => {
+        dispatch(hideLoader());
         // Sign-out successful.
       })
       .catch((error) => {
+        dispatch(hideLoader());
         // An error happened.
       });
   };
