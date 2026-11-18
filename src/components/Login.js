@@ -52,7 +52,6 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
           updateProfile(auth.currentUser, {
             displayName: nameRef?.current?.value ?? "Guest User",
             photoURL: USER_LOGO,
