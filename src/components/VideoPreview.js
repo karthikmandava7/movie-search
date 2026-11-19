@@ -1,38 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { API_OPTIONS } from "../utils/serviceConstants";
+import { useSelector } from "react-redux";
+import usePreviewMovie from "../hooks/usePreviewMovie";
 
 const VideoPreview = ({ movieId }) => {
-  const [previewMve, setPreviewMve] = useState(null);
-  const fetchVideos = async () => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
-        API_OPTIONS,
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch now-playing movies");
-      }
-      const json = await response.json();
-      const trailerData = json?.results
-        ? json?.results.filter((item) => item?.type === "Trailer")
-        : null;
-
-      const finalObj = trailerData.length
-        ? trailerData[trailerData.length - 1]
-        : null;
-      setPreviewMve(finalObj);
-    } catch (error) {}
-  };
-  useEffect(() => {
-    fetchVideos();
-  }, []);
+  usePreviewMovie(movieId);
+  const previewMve = useSelector((store) => store?.nowPlaying?.previewMovie);
   if (!previewMve?.key) return null;
   //`https://www.youtube.com/embed/JFQcDFhNh4o?si=${previewMve?.key}&autoplay=1&mute=1`}
   return (
-    <div>
+    <div className="w-screen aspect-video">
       <iframe
-        width="560"
-        height="315"
+        className="w-screen aspect-video"
         src={`https://www.youtube.com/embed/${previewMve?.key}?autoplay=1&mute=1`}
         title="YouTube video player"
         frameborder="0"
