@@ -2,7 +2,7 @@ const MainContainerTitle = ({ preview }) => {
   return (
     <div className="absolute w-1/4 m-4 pt-40">
       <div>
-        <h1 className="text-xl font-bold text-white">{preview?.title}</h1>
+        <h1 className="text-xl font-bold text-white m-2">{preview?.title}</h1>
         <p className="font-light text-left m-2 text-white">
           {preview?.overview}
         </p>
