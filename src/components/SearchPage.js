@@ -62,7 +62,6 @@ Always focus on recommending good movies that match the user's interests.
           <button
             className="bg-[#E50914] text-white rounded p-1 w-[20%]"
             onClick={onSearch}
-            disabled={inputRef.current.value.length}
           >
             {languagejson[lang].searchTxt}
           </button>
