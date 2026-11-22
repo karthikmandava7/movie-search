@@ -5,6 +5,7 @@ import Home from "./components/Home";
 
 import Body from "./components/Body";
 import GlobalLoader from "./components/GlobalLoader";
+import SearchPage from "./components/SearchPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const App = () => {
           path: "home",
           element: <Home />,
         },
+        {
+          path: 'search',
+          element: <SearchPage />
+        }
       ],
     },
   ]);
