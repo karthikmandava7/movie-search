@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { languagejson } from "../utils/languagejson";
 import { useDispatch, useSelector } from "react-redux";
 import client from "../services/openaiConfig";
@@ -10,6 +10,7 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const inputRef = useRef();
   const lang = useSelector((store) => store.gptSearch.languageSelected);
+  const [isLoading, setLoading] = useState(false);
 
   const searchMovies = async (item) => {
     try {
@@ -27,6 +28,7 @@ const SearchBar = () => {
 
   const onSearch = async () => {
     if (!inputRef.current.value) return;
+    setLoading(true);
     try {
       const response = await client.responses.create({
         model: "gpt-5.5",
@@ -45,22 +47,23 @@ const SearchBar = () => {
       };
     });
     const finalList = await Promise.all(responseList);
+    setLoading(false);
     dispatch(setMovieResults(finalList));
   };
 
   return (
     <div className="w-full flex justify-center">
-      <div className="bg-black p-3 rounded border-white border-1 w-1/3 h-16 flex justify-between">
+      <div className="bg-black p-3 rounded border-white border-1 w-1/3 h-16 flex justify-between bg-opacity-80">
         <input
           ref={inputRef}
           placeholder={languagejson[lang].searchPlacholder}
           className="mr-2 p-1 rounded w-[80%] caret-[#E50914]"
         ></input>
         <button
-          className="bg-[#E50914] text-white rounded p-1 w-[20%]"
+          className={`bg-[#E50914] text-white rounded p-1 w-[20%] ${isLoading? "bg-opacity-50" : "bg-opacity-100"}`}
           onClick={onSearch}
         >
-          {languagejson[lang].searchTxt}
+          {isLoading ? "Loading" :languagejson[lang].searchTxt}
         </button>
       </div>
     </div>
