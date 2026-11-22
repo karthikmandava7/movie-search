@@ -19,7 +19,7 @@ const SearchBtn = () => {
   };
   return (
     <button
-      className="bg-[#E50914] text-white px-2 font-medium rounded hover:opacity-80 h-10"
+      className="bg-[#E50914] text-white p-1 px-3 font-medium rounded hover:opacity-80"
       onClick={onClick}
     >
       {isSearchOpen ? "Home" : "Search"}
