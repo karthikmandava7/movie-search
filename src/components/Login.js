@@ -14,6 +14,7 @@ import { hideLoader, showLoader } from "../store/loaderSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const [isSignInFormOpen, setSignInFormOpen] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -29,6 +30,7 @@ const Login = () => {
     setErrorMsg(isValid);
     if (isValid) return;
     if (isSignInFormOpen) {
+      setLoading(true);
       dispatch(showLoader());
       signInWithEmailAndPassword(
         auth,
@@ -40,10 +42,12 @@ const Login = () => {
           dispatch(hideLoader());
         })
         .catch((error) => {
+          setLoading(false);
           dispatch(showLoader());
           setErrorMsg(error?.message);
         });
     } else {
+      setLoading(true);
       dispatch(showLoader());
       createUserWithEmailAndPassword(
         auth,
@@ -60,10 +64,12 @@ const Login = () => {
               dispatch(hideLoader());
             })
             .catch((error) => {
+              setLoading(false);
               dispatch(hideLoader());
             });
         })
         .catch((error) => {
+          setLoading(false);
           dispatch(hideLoader());
           setErrorMsg(error?.message);
         });
@@ -75,7 +81,7 @@ const Login = () => {
       <img src={APP_LOGO} alt="image_1" className="h-screen" />
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="absolute flex flex-col inset-0 m-auto w-3/12 h-fit bg-black p-5 rounded bg-opacity-75"
+        className="absolute flex flex-col inset-0 mx-2 my-auto md:m-auto md:w-3/12 h-fit bg-black p-5 rounded-lg bg-opacity-75"
       >
         <p className="text-white text-xl">
           {isSignInFormOpen ? "Sign In" : "Sign Up"}
@@ -104,13 +110,13 @@ const Login = () => {
           <p className="text-red-700 m-2 font-medium">{errorMsg}</p>
         ) : null}
         <button
-          className="p-2 m-2 bg-[#e40914] text-white rounded"
+          className="p-2 m-2 bg-[#e40914] text-white rounded font-medium"
           onClick={onSubmit}
         >
-          {"Continue"}
+          {isLoading ? "Wait.." : "Continue"}
         </button>
         <button
-          className="text-white p-2 m-1 text-left"
+          className={`text-white p-2 m-1 text-left ${isLoading ? "bg-opacity-50" : "bg-opacity-100"}`}
           onClick={() => setSignInFormOpen(!isSignInFormOpen)}
         >
           {isSignInFormOpen
