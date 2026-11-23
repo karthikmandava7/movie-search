@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utils/serviceConstants";
 import { addPreviewMovie } from "../store/nowPlayingSlice";
 
 const usePreviewMovie = (movieId) => {
   const dispatch = useDispatch();
+  const previewMve = useSelector((store) => store?.nowPlaying?.previewMovie);
 
   const fetchVideos = async () => {
     try {
@@ -30,7 +31,7 @@ const usePreviewMovie = (movieId) => {
   };
 
   useEffect(() => {
-    fetchVideos();
+    if(!previewMve) fetchVideos();
   }, []);
 };
 
