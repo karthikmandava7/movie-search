@@ -27,7 +27,7 @@ const Header = () => {
       <img src={NETFLIX_LOGO} alt="logo" className="w-24 md:w-44" />
       <div className="flex gap-2 md:gap-4 items-center">
         {isSearchOpen ? <LanguageSelect /> : null}
-        <SearchBtn />
+       {user ?  <SearchBtn /> : null}
         {user ? (
           <div className="flex gap-1 md:gap-2 text-white">
             <img src={user?.photoURL} alt="logo" className="w-6 md:w-10 rounded" />
