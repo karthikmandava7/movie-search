@@ -13,7 +13,7 @@ const LanguageSelect = () => {
     <select
       name="language"
       id="lang"
-      className="p-1 rounded"
+      className="px-1 md:p-1 rounded"
       onChange={onLangChange}
     >
       {languages.map((lang) => (

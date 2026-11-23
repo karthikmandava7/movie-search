@@ -53,14 +53,14 @@ const SearchBar = () => {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="bg-black p-3 rounded border-white border-1 w-1/3 h-16 flex justify-between bg-opacity-80">
+      <div className="bg-black p-3 rounded border-white border-1 w-[90%] md:w-1/3 h-16 flex justify-between bg-opacity-80">
         <input
           ref={inputRef}
           placeholder={languagejson[lang].searchPlacholder}
           className="mr-2 p-1 rounded w-[80%] caret-[#E50914]"
         ></input>
         <button
-          className={`bg-[#E50914] text-white rounded p-1 w-[20%] ${isLoading? "bg-opacity-50" : "bg-opacity-100"}`}
+          className={`bg-[#E50914] text-white rounded p-1 w-[20%] font-medium ${isLoading? "bg-opacity-50" : "bg-opacity-100"}`}
           onClick={onSearch}
         >
           {isLoading ? "Loading" :languagejson[lang].searchTxt}
